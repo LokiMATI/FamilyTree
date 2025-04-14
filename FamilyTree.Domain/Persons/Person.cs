@@ -32,7 +32,7 @@ public class Person
             if (string.IsNullOrEmpty(value))
                 throw new ArgumentNullException(nameof(value));
             
-            if (!Regex.IsMatch(value, @"^[a-zA-Zа-яА-Я\s]*&"))
+            if (value.Length > PersonConst.MaxFirstNameLength || !Regex.IsMatch(value, @"^[a-zA-Zа-яА-Я\s]*&"))
                 throw new ArgumentException("Invalid first name", nameof(value));
             
             _firstName = value;
@@ -50,7 +50,7 @@ public class Person
             if (string.IsNullOrEmpty(value))
                 throw new ArgumentNullException(nameof(value));
             
-            if (!Regex.IsMatch(value, @"^[a-zA-Zа-яА-Я\s]*&"))
+            if (value.Length > PersonConst.MaxLastNameLength || !Regex.IsMatch(value, @"^[a-zA-Zа-яА-Я\s]*&"))
                 throw new ArgumentException("Invalid last name", nameof(value));
             
             _lastName = value;
@@ -68,7 +68,7 @@ public class Person
             if (string.IsNullOrEmpty(value))
                 throw new ArgumentNullException(nameof(value));
             
-            if (!Regex.IsMatch(value, @"^[a-zA-Zа-яА-Я\s]*&"))
+            if (value.Length > PersonConst.MaxPatronymicLength || !Regex.IsMatch(value, @"^[a-zA-Zа-яА-Я\s]*&"))
                 throw new ArgumentException("Invalid patronymic", nameof(value));
             
             _patronymic = value;
@@ -91,6 +91,9 @@ public class Person
             if (string.IsNullOrEmpty(value))
                 throw new ArgumentNullException(nameof(value));
             
+            if (value.Length > PersonConst.MaxAddressLength)
+                throw new ArgumentException("Invalid length of birth place", nameof(value));
+            
             _birthplace = value;
         }
     }
@@ -110,6 +113,9 @@ public class Person
         { 
             if (string.IsNullOrEmpty(value))
                 throw new ArgumentNullException(nameof(value));
+            
+            if (value.Length > PersonConst.MaxAddressLength)
+                throw new ArgumentException("Invalid length of death place", nameof(value));
             
             _deathPlace = value;
         }
@@ -168,6 +174,9 @@ public class Person
         {
             if (string.IsNullOrEmpty(value))
                 throw new ArgumentNullException(nameof(value));
+            
+            if (value.Length > PersonConst.MaxBiographyLength)
+                throw new ArgumentException("Invalid length of biography", nameof(value));
             
             _biography = value;
         }
