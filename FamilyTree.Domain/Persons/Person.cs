@@ -29,7 +29,7 @@ public class Person
         get => _firstName;
         set
         {
-            if (string.IsNullOrEmpty(value))
+            if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentNullException(nameof(value));
             
             if (value.Length > PersonConst.MaxFirstNameLength || !Regex.IsMatch(value, @"^[a-zA-Zа-яА-Я\s]*&"))
@@ -47,7 +47,7 @@ public class Person
         get => _lastName;
         set
         {
-            if (string.IsNullOrEmpty(value))
+            if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentNullException(nameof(value));
             
             if (value.Length > PersonConst.MaxLastNameLength || !Regex.IsMatch(value, @"^[a-zA-Zа-яА-Я\s]*&"))
@@ -65,7 +65,7 @@ public class Person
         get => _patronymic;
         set
         {
-            if (string.IsNullOrEmpty(value))
+            if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentNullException(nameof(value));
             
             if (value.Length > PersonConst.MaxPatronymicLength || !Regex.IsMatch(value, @"^[a-zA-Zа-яА-Я\s]*&"))
@@ -88,7 +88,7 @@ public class Person
         get => _birthplace;
         set
         { 
-            if (string.IsNullOrEmpty(value))
+            if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentNullException(nameof(value));
             
             if (value.Length > PersonConst.MaxAddressLength)
@@ -111,7 +111,7 @@ public class Person
         get => _deathPlace;
         set
         { 
-            if (string.IsNullOrEmpty(value))
+            if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentNullException(nameof(value));
             
             if (value.Length > PersonConst.MaxAddressLength)
@@ -172,7 +172,7 @@ public class Person
         get => _biography;
         set
         {
-            if (string.IsNullOrEmpty(value))
+            if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentNullException(nameof(value));
             
             if (value.Length > PersonConst.MaxBiographyLength)
