@@ -7,24 +7,24 @@ namespace FamilyTree.Domain.Persons;
 /// </summary>
 public class Person
 {
-    private string _firstName;
-    private string _lastName;
+    private string _firstName = string.Empty;
+    private string _lastName = string.Empty;
     private string? _patronymic;
     private string? _birthplace;
     private string? _deathPlace;
     private string? _biography;
-    private List<Person> _partners = new();
-    private List<Person> _children = new();
+    private readonly List<Person> _partners = new();
+    private readonly List<Person> _children = new();
 
     /// <summary>
     /// Идентификатор.
     /// </summary>
-    public virtual Guid Id { get; init; } = Guid.NewGuid();
+    public Guid Id { get; init; } = Guid.NewGuid();
 
     /// <summary>
     /// Имя.
     /// </summary>
-    public virtual string FirstName
+    public string FirstName
     {
         get => _firstName;
         set
@@ -42,7 +42,7 @@ public class Person
     /// <summary>
     /// Фамилия.
     /// </summary>
-    public virtual string LastName
+    public string LastName
     {
         get => _lastName;
         set
@@ -60,7 +60,7 @@ public class Person
     /// <summary>
     /// Отчество.
     /// </summary>
-    public virtual string? Patronymic
+    public string? Patronymic
     {
         get => _patronymic;
         set
@@ -78,12 +78,12 @@ public class Person
     /// <summary>
     /// Дата рождения.
     /// </summary>
-    public virtual DateTime? BirthDate { get; set; }
+    public DateTime? BirthDate { get; set; }
 
     /// <summary>
     /// Место рождения.
     /// </summary>
-    public virtual string? Birthplace
+    public string? Birthplace
     {
         get => _birthplace;
         set
@@ -98,12 +98,12 @@ public class Person
     /// <summary>
     /// Дата смерти.
     /// </summary>
-    public virtual DateTime? DeathDate { get; set; }
+    public DateTime? DeathDate { get; set; }
 
     /// <summary>
     /// Место смерти.
     /// </summary>
-    public virtual string? DeathPlace
+    public string? DeathPlace
     {
         get => _deathPlace;
         set
@@ -118,17 +118,17 @@ public class Person
     /// <summary>
     /// Отец.
     /// </summary>
-    public virtual Person? Father { get; set; }
+    public Person? Father { get; set; }
     
     /// <summary>
     /// Мать.
     /// </summary>
-    public virtual Person? Mother { get; set; }
+    public Person? Mother { get; set; }
 
     /// <summary>
     /// Партнёры.
     /// </summary>
-    public virtual List<Person>? Partners
+    public List<Person> Partners
     {
         get => _partners;
         set
@@ -142,7 +142,7 @@ public class Person
     /// <summary>
     /// Дети.
     /// </summary>
-    public virtual List<Person>? Children
+    public List<Person> Children
     {
         get => _children;
         set
@@ -156,12 +156,12 @@ public class Person
     /// <summary>
     /// Идентификатор аккаунта.
     /// </summary>
-    public virtual Guid? AccountId { get; set; }
+    public Guid? AccountId { get; set; }
 
     /// <summary>
     /// Биография.
     /// </summary>
-    public virtual string? Biography
+    public string? Biography
     {
         get => _biography;
         set
