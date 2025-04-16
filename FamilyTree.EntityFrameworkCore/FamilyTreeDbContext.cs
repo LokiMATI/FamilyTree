@@ -1,17 +1,23 @@
 ﻿using FamilyTree.Domain.Persons;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace FamilyTree.EntityFrameworkCore;
 
 /// <summary>
 /// Контекст проекта FamilyTree
 /// </summary>
-public class FamilyTreeDbContext(DbContextOptions<FamilyTreeDbContext> options) : DbContext(options)
+public class FamilyTreeDbContext : 
+    DbContext
 {
     /// <summary>
     /// Сущность людей.
     /// </summary>
     DbSet<Person> Persons { get; set; }
+
+    public FamilyTreeDbContext(DbContextOptions<FamilyTreeDbContext> options) : base(options)
+    {
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
