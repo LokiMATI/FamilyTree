@@ -1,46 +1,161 @@
 using FamilyTree.Domain.Persons;
+using Microsoft.EntityFrameworkCore;
 
-namespace FamilyTree.EntityFrameworkCore.Persons;
+namespace FamilyTree.Services.Persons;
 
 /// <inheritdoc cref="IPersonRepository"/>
-public class PersonRepository :
+public class PersonRepository(FamilyTreeDbContext context) :
     IPersonRepository
 {
-    private readonly FamilyTreeDbContext _context;
-
-    public PersonRepository(FamilyTreeDbContext context)
-    {
-        _context = context;
-    }
-    
+    /// <inheritdoc/>
     public async Task<Person> GetAsync(
         Guid id)
     {
-        throw new NotImplementedException();
+        var person = await context.Persons.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+        
+        if (person is null)
+            throw new KeyNotFoundException("Person not found");
+        
+        return person;
     }
 
-    public async Task<List<Person>> GetListAsync(string? firstName = null, string? lastName = null, string? patronymic = null,
-        DateTime? birthDate = null, DateTime? deathDate = null, int page = 1, int pageSize = Int32.MaxValue)
+    /// <inheritdoc/>
+    public async Task<List<Person>> GetListAsync(
+        Gender? gender = null,
+        string? firstName = null,
+        string? lastName = null,
+        string? patronymic = null,
+        DateTime? birthDate = null, 
+        DateTime? deathDate = null,
+        int page = 1,
+        int pageSize = int.MaxValue)
     {
-        throw new NotImplementedException();
+        var persons = await context.Persons.AsNoTracking().ToListAsync();
+        
+        if (gender is not null)
+            persons = await Task.Run(() => 
+                persons.Where(p => p.Gender == gender).ToList());
+        
+        if (firstName is not null)
+            persons = await Task.Run(() => 
+                persons.Where(p => p.FirstName == firstName).ToList());
+        
+        if (lastName is not null)
+            persons = await Task.Run(() =>
+                persons.Where(p => p.LastName == lastName).ToList());
+        
+        if (patronymic is not null)
+            persons = await Task.Run(() => 
+                persons.Where(p => p.Patronymic == patronymic).ToList());
+        
+        if (birthDate is not null)
+            persons = await Task.Run(() =>
+                persons.Where(p => p.BirthDate == birthDate).ToList());
+        
+        if (deathDate is not null)
+            persons = await Task.Run(() =>
+                persons.Where(p => p.DeathDate == deathDate).ToList());
+        
+        return await Task.Run(() => 
+            persons.Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList());
     }
 
-    public async Task<Person> CreateAsync(string firstName, string lastName, string? patronymic = null, Person? father = null,
-        Person? mother = null, List<Person>? partners = null, List<Person>? children = null, Guid? accountId = null)
+    /// <inheritdoc/>
+    public async Task<Person> CreateAsync(
+        string firstName, 
+        string lastName,
+        Gender gender,
+        string? patronymic = null,
+        Guid? fatherId = null,
+        Guid? motherId = null,
+        Guid? accountId = null)
     {
-        throw new NotImplementedException();
+        Person person = new(
+            firstName: firstName,
+            lastName: lastName,
+            gender: gender,
+            patronymic: patronymic,
+            fatherId: fatherId,
+            motherId: motherId,
+            accountId: accountId);
+        
+        await context.Persons.AddAsync(person);
+        await context.SaveChangesAsync();
+        
+        return person;
     }
 
-    public async Task<Person> UpdateAsync(Guid id, string? firstName = null, string? lastName = null, string? patronymic = null,
-        DateTime? birthDate = null, string? birthPlace = null, DateTime? deathDate = null, string? deathPlace = null,
-        Person? father = null, Person? mother = null, List<Person>? partners = null, List<Person>? children = null, Guid? accountId = null,
+    /// <inheritdoc/>
+    public async Task<Person> UpdateAsync(
+        Guid id, 
+        string? firstName = null,
+        string? lastName = null,
+        string? patronymic = null,
+        DateTime? birthDate = null,
+        string? birthPlace = null,
+        DateTime? deathDate = null,
+        string? deathPlace = null,
+        Guid? fatherId = null,
+        Guid? motherId = null,
+        Guid? accountId = null,
         string? biography = null)
     {
-        throw new NotImplementedException();
+        var person = await context.Persons.FirstOrDefaultAsync(p => p.Id == id);
+        
+        if (person is null)
+            throw new KeyNotFoundException("Person not found");
+        
+        if (firstName is not null)
+            person.FirstName = firstName;
+
+        if (lastName is not null)
+            person.LastName = lastName;
+        
+        if (patronymic is not null)
+            person.Patronymic = patronymic;
+        
+        if (birthDate is not null)
+            person.BirthDate = birthDate;
+        
+        if (birthPlace is not null)
+            person.Birthplace = birthPlace;
+        
+        if (deathDate is not null)
+            person.DeathDate = deathDate;
+        
+        if (deathPlace is not null)
+            person.DeathPlace = deathPlace;
+        
+        if (fatherId is not null)
+            person.FatherId = fatherId;
+        
+        if (motherId is not null)
+            person.MotherId = motherId;
+        
+        if (accountId is not null)
+            person.AccountId = accountId;
+        
+        if (biography is not null)
+            person.Biography = biography;
+        
+        await Task.Run(() => context.Persons.Update(person));
+        await context.SaveChangesAsync();
+        
+        return person;
     }
 
-    public async Task DeleteAsync(Guid id)
+    /// <inheritdoc/>
+    public async Task DeleteAsync(
+        Guid id)
     {
-        throw new NotImplementedException();
+        var person = await context.Persons.FirstOrDefaultAsync(p => p.Id == id);
+        
+        if (person is null)
+            throw new KeyNotFoundException("Person not found");
+        
+        await Task.Run(() => context.Persons.Remove(person));
+        await context.SaveChangesAsync();
     }
 }
