@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+option csharp_namespace = "PersonServiceApp";
+
+package person;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+enum Gender {
+  Unknown = 0;
+  Male = 1;
+  Female = 2;
+}
+
+service PersonService {
+  rpc GetPerson(PersonIdRequest) returns (PersonReply);
+  rpc GetListPersons(GetListRequest) returns (GetListResponse);
+  rpc CreatePerson(CreateRequest) returns (PersonReply);
+  rpc UpdatePerson(UpdateRequest) returns (PersonReply);
+  rpc DeletePerson(PersonIdRequest) returns (google.protobuf.Empty);
+}
+
+message PersonReply {
+  string id = 1;
+  Gender gender = 2;
+  string firstName = 3;
+  string lastName = 4;
+  google.protobuf.StringValue patronymic = 5;
+  google.protobuf.StringValue birthDate = 6;
+  google.protobuf.StringValue birthplace = 7;
+  google.protobuf.StringValue deathDate = 8;
+  google.protobuf.StringValue deathPlace = 9;
+  google.protobuf.StringValue fatherId = 10;
+  google.protobuf.StringValue motherId = 11;
+  google.protobuf.StringValue accountId = 12;
+  google.protobuf.StringValue biography = 13;
+}
+
+message PersonIdRequest {
+  string id = 1;
+}
+
+message GetListRequest {
+  Gender gender = 1;
+  google.protobuf.StringValue firstName = 2;
+  google.protobuf.StringValue lastName = 3;
+  google.protobuf.StringValue patronymic = 4;
+  google.protobuf.StringValue birthDate = 5;
+  google.protobuf.StringValue deathDate = 6;
+  google.protobuf.Int32Value page = 7;
+  google.protobuf.Int32Value pageSize = 8;
+}
+
+message GetListResponse {
+  repeated PersonReply Persons = 1;
+}
+
+message CreateRequest {
+  Gender gender = 1;
+  string firstName = 2;
+  string lastName = 3;
+  google.protobuf.StringValue patronymic = 4;
+  google.protobuf.StringValue fatherId = 5;
+  google.protobuf.StringValue motherId = 6;
+  google.protobuf.StringValue accountId = 7;  
+}
+
+message UpdateRequest {
+  string id = 1;
+  google.protobuf.StringValue firstName = 3;
+  google.protobuf.StringValue lastName = 4;
+  google.protobuf.StringValue patronymic = 5;
+  google.protobuf.StringValue birthDate = 6;
+  google.protobuf.StringValue birthplace = 7;
+  google.protobuf.StringValue deathDate = 8;
+  google.protobuf.StringValue deathPlace = 9;
+  google.protobuf.StringValue fatherId = 10;
+  google.protobuf.StringValue motherId = 11;
+  google.protobuf.StringValue accountId = 12;
+  google.protobuf.StringValue biography = 13;
+}
