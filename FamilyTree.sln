@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyTree.Domain", "Family
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyTree.Services", "FamilyTree.Services\FamilyTree.Services.csproj", "{D0A5F1CA-C40A-4981-B6AE-09510AE4E078}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyTree.EntityFrameworkCore", "FamilyTree.EntityFrameworkCore\FamilyTree.EntityFrameworkCore.csproj", "{A29BD618-11AE-4073-A971-CD86588244C9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,9 +23,5 @@ Global
 		{D0A5F1CA-C40A-4981-B6AE-09510AE4E078}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0A5F1CA-C40A-4981-B6AE-09510AE4E078}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0A5F1CA-C40A-4981-B6AE-09510AE4E078}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A29BD618-11AE-4073-A971-CD86588244C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A29BD618-11AE-4073-A971-CD86588244C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A29BD618-11AE-4073-A971-CD86588244C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A29BD618-11AE-4073-A971-CD86588244C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

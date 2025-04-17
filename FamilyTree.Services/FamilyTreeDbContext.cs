@@ -1,8 +1,7 @@
 ﻿using FamilyTree.Domain.Persons;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace FamilyTree.EntityFrameworkCore;
+namespace FamilyTree.Services;
 
 /// <summary>
 /// Контекст проекта FamilyTree
@@ -13,9 +12,10 @@ public class FamilyTreeDbContext :
     /// <summary>
     /// Сущность людей.
     /// </summary>
-    DbSet<Person> Persons { get; set; }
+    public DbSet<Person> Persons { get; set; }
 
-    public FamilyTreeDbContext(DbContextOptions<FamilyTreeDbContext> options) : base(options)
+    public FamilyTreeDbContext(DbContextOptions<FamilyTreeDbContext> options) 
+        : base(options)
     {
     }
 
@@ -35,11 +35,9 @@ public class FamilyTreeDbContext :
             person.Property(p => p.Birthplace).HasMaxLength(PersonConst.MaxAddressLength);
             person.Property(p => p.DeathPlace).HasMaxLength(PersonConst.MaxAddressLength);
             person.Property(p => p.Biography).HasMaxLength(PersonConst.MaxBiographyLength);
-            
-            person.HasOne(p => p.Father).WithMany(u => u.Children);
-            person.HasOne(p => p.Mother).WithMany(u => u.Children);
-            person.HasMany(p => p.Partners).WithMany(u => u.Partners)
-                .UsingEntity(j => j.ToTable("Partners"));
+
+            person.HasOne<Person>().WithMany().HasForeignKey(k => k.FatherId).OnDelete(DeleteBehavior.SetNull);
+            person.HasOne<Person>().WithMany().HasForeignKey(k => k.MotherId).OnDelete(DeleteBehavior.SetNull);
         });
     }
 }
