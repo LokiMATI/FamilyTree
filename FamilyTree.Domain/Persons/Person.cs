@@ -13,8 +13,6 @@ public class Person
     private string? _birthplace;
     private string? _deathPlace;
     private string? _biography;
-    private readonly List<Person> _partners = new();
-    private readonly List<Person> _children = new();
 
     /// <summary>
     /// Идентификатор.
@@ -56,6 +54,11 @@ public class Person
             _lastName = value;
         }
     }
+    
+    /// <summary>
+    /// Гендер.
+    /// </summary>
+    public Gender Gender { get; set; }
 
     /// <summary>
     /// Отчество.
@@ -122,42 +125,14 @@ public class Person
     }
 
     /// <summary>
-    /// Отец.
+    /// Идентификатор отца.
     /// </summary>
-    public Person? Father { get; set; }
+    public Guid? FatherId { get; set; }
     
     /// <summary>
-    /// Мать.
+    /// Идентификатор матери.
     /// </summary>
-    public Person? Mother { get; set; }
-
-    /// <summary>
-    /// Партнёры.
-    /// </summary>
-    public List<Person> Partners
-    {
-        get => _partners;
-        set
-        {
-            foreach (var partner in value)
-                if (!_partners.Contains(partner))
-                    _partners.Add(partner);
-        }
-    }
-
-    /// <summary>
-    /// Дети.
-    /// </summary>
-    public List<Person> Children
-    {
-        get => _children;
-        set
-        { 
-            foreach (var child in value)
-                if (!_children.Contains(child))
-                    _children.Add(child);
-        }
-    }
+    public Guid? MotherId { get; set; }
 
     /// <summary>
     /// Идентификатор аккаунта.
@@ -187,39 +162,32 @@ public class Person
     /// </summary>
     /// <param name="firstName">Имя.</param>
     /// <param name="lastName">Фамилия.</param>
+    /// <param name="gender">Гендер.</param>
     /// <param name="patronymic">Отчество.</param>
-    /// <param name="father">Отец.</param>
-    /// <param name="mother">Мать.</param>
-    /// <param name="partners">Партнёры.</param>
-    /// <param name="children">Дети.</param>
+    /// <param name="fatherId">Идентификатор отца.</param>
+    /// <param name="motherId">Идентификатор матери.</param>
     /// <param name="accountId">Идентификатор аккаунта.</param>
     public Person(
         string firstName,
         string lastName,
+        Gender gender,
         string? patronymic,
-        Person? father,
-        Person? mother,
-        List<Person>? partners,
-        List<Person>? children,
+        Guid? fatherId,
+        Guid? motherId,
         Guid? accountId)
     {
         FirstName = firstName;
         LastName = lastName;
+        Gender = gender;
         
         if (patronymic is not null)
             Patronymic = patronymic;
         
-        if (father is not null)
-            Father = father;
+        if (fatherId is not null)
+            FatherId = fatherId;
         
-        if (mother is not null)
-            Mother = mother;
-        
-        if (partners is not null)
-            Partners = partners;
-        
-        if (children is not null)
-            Children = children;
+        if (motherId is not null)
+            MotherId = motherId;
         
         if (accountId is not null)
             AccountId = accountId;

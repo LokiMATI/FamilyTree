@@ -12,10 +12,11 @@ public interface IPersonRepository
     /// <returns>Человек.</returns>
     Task<Person> GetAsync(
         Guid id);
-    
+
     /// <summary>
     /// Получить список людей.
     /// </summary>
+    /// <param name="gender">Гендер.</param>
     /// <param name="firstName">Имя.</param>
     /// <param name="lastName">Фамилия.</param>
     /// <param name="patronymic">Отчество.</param>
@@ -25,6 +26,7 @@ public interface IPersonRepository
     /// <param name="pageSize">Размер страницы.</param>
     /// <returns>Список людей.</returns>
     Task<List<Person>> GetListAsync(
+        Gender? gender = null,
         string? firstName = null,
         string? lastName = null,
         string? patronymic = null,
@@ -38,21 +40,19 @@ public interface IPersonRepository
     /// </summary>
     /// <param name="firstName">Имя.</param>
     /// <param name="lastName">Фамилия.</param>
+    /// <param name="gender">Гендер.</param>
     /// <param name="patronymic">Отечество.</param>
-    /// <param name="father">Отец.</param>
-    /// <param name="mother">Мать.</param>
-    /// <param name="partners">Партнёры.</param>
-    /// <param name="children">Дети.</param>
+    /// <param name="fatherId">Идентификатор отца.</param>
+    /// <param name="motherId">Идентификатор матери.</param>
     /// <param name="accountId">Идентификатор аккаунт.</param>
     /// <returns>Созданный человек.</returns>
     Task<Person> CreateAsync(
         string firstName,
         string lastName,
+        Gender gender,
         string? patronymic = null,
-        Person? father = null,
-        Person? mother = null,
-        List<Person>? partners = null,
-        List<Person>? children = null,
+        Guid? fatherId = null,
+        Guid? motherId = null,
         Guid? accountId = null);
     
     /// <summary>
@@ -66,10 +66,8 @@ public interface IPersonRepository
     /// <param name="birthPlace">Место рождения.</param>
     /// <param name="deathDate">Дата смерти.</param>
     /// <param name="deathPlace">Место смерти.</param>
-    /// <param name="father">Отец.</param>
-    /// <param name="mother">Мать.</param>
-    /// <param name="partners">Партнёры.</param>
-    /// <param name="children">Дети.</param>
+    /// <param name="fatherId">Идентификатор отца.</param>
+    /// <param name="motherId">Идентификатор матери.</param>
     /// <param name="accountId">Идентификатор аккаунта.</param>
     /// <param name="biography">Биография.</param>
     /// <returns>Обновлённый человек.</returns>
@@ -82,10 +80,8 @@ public interface IPersonRepository
         string? birthPlace = null,
         DateTime? deathDate = null,
         string? deathPlace = null,
-        Person? father = null,
-        Person? mother = null,
-        List<Person>? partners = null,
-        List<Person>? children = null,
+        Guid? fatherId = null,
+        Guid? motherId = null,
         Guid? accountId = null,
         string? biography = null);
     
