@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "PersonClientApp";
+option csharp_namespace = "PersonServiceApp";
 
 package person;
 
