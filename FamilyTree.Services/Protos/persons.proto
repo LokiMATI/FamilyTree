@@ -49,8 +49,8 @@ message GetListRequest {
   google.protobuf.StringValue patronymic = 4;
   google.protobuf.StringValue birthDate = 5;
   google.protobuf.StringValue deathDate = 6;
-  google.protobuf.Int32Value page = 7;
-  google.protobuf.Int32Value pageSize = 8;
+  int32 page = 7;
+  int32 pageSize = 8;
 }
 
 message GetListResponse {

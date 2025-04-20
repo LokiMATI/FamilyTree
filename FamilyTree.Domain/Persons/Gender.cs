@@ -8,10 +8,10 @@ public enum Gender : byte
     /// <summary>
     /// Мужской.
     /// </summary>
-    Male = 0,
+    Male = 1,
     
     /// <summary>
     /// Женский.
     /// </summary>
-    Female = 1
+    Female = 2
 }
