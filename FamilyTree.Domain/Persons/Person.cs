@@ -30,7 +30,7 @@ public class Person
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentNullException(nameof(value));
             
-            if (value.Length > PersonConst.MaxFirstNameLength || !Regex.IsMatch(value, @"^[a-zA-Zа-яА-Я\s]*&"))
+            if (value.Length > PersonConst.MaxFirstNameLength || !Regex.IsMatch(value, @"^[\p{L}\s'-]+$"))
                 throw new ArgumentException("Invalid first name", nameof(value));
             
             _firstName = value;
@@ -48,7 +48,7 @@ public class Person
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentNullException(nameof(value));
             
-            if (value.Length > PersonConst.MaxLastNameLength || !Regex.IsMatch(value, @"^[a-zA-Zа-яА-Я\s]*&"))
+            if (value.Length > PersonConst.MaxLastNameLength || !Regex.IsMatch(value, @"^[\p{L}\s'-]+$"))
                 throw new ArgumentException("Invalid last name", nameof(value));
             
             _lastName = value;
@@ -71,7 +71,7 @@ public class Person
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentNullException(nameof(value));
             
-            if (value.Length > PersonConst.MaxPatronymicLength || !Regex.IsMatch(value, @"^[a-zA-Zа-яА-Я\s]*&"))
+            if (value.Length > PersonConst.MaxPatronymicLength || !Regex.IsMatch(value, @"^[\p{L}\s'-]+$"))
                 throw new ArgumentException("Invalid patronymic", nameof(value));
             
             _patronymic = value;
