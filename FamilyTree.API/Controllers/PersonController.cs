@@ -12,7 +12,7 @@ namespace FamilyTree.API.Controllers;
 [Route("api/[controller]")]
 public class PersonController(PersonAppService service) : ControllerBase
 {
-    [HttpGet("{id:guid:required}")]
+    [HttpGet("id")]
     public async Task<ActionResult<Person>> GetPerson(
         Guid id)
     {
@@ -73,7 +73,7 @@ public class PersonController(PersonAppService service) : ControllerBase
         }
     }
 
-    [HttpPut("{id:guid:required}")]
+    [HttpPut]
     public async Task<ActionResult<Person>> UpdatePerson(
         Guid id,
         [FromBody] PersonUpdateDto input)
@@ -104,7 +104,7 @@ public class PersonController(PersonAppService service) : ControllerBase
         }
     }
 
-    [HttpDelete("{id:guid:required}")]
+    [HttpDelete]
     public async Task<ActionResult> DeletePerson(
         Guid id)
     {

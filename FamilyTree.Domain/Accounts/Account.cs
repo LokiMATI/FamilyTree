@@ -26,7 +26,7 @@ public class Account
     /// <summary>
     /// Идентификатор.
     /// </summary>
-    public Guid Id { get; init; } = Guid.NewGuid();
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     /// <summary>
     /// Логин.
