@@ -1,7 +1,6 @@
 using FamilyTree.Domain.Persons;
-using Google.Protobuf.WellKnownTypes;
 
-namespace FamilyTree.API.Services;
+namespace FamilyTree.BusinessLogic.Services;
 
 public class PersonAppService(IPersonRepository personRepository)
 {
