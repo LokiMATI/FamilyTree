@@ -7,13 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Google.Protobuf" Version="3.30.2" />
-        <PackageReference Include="Grpc.Net.Client" Version="2.70.0" />
-        <PackageReference Include="Grpc.Tools" Version="2.70.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.1"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
           <PrivateAssets>all</PrivateAssets>
@@ -25,7 +18,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\FamilyTree.BusinessLogic\FamilyTree.BusinessLogic.csproj" />
       <ProjectReference Include="..\FamilyTree.Domain\FamilyTree.Domain.csproj" />
+      <ProjectReference Include="..\FamilyTree.EntityFrameworkCore\FamilyTree.EntityFrameworkCore.csproj" />
     </ItemGroup>
 
 </Project>
