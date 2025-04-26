@@ -19,7 +19,8 @@ public class JwtService(IOptions<JwtSettings> options)
         
         var jwtToken = new JwtSecurityToken(
             expires: DateTime.UtcNow.Add(options.Value.Expires),
-            claims: claims,
+            issuer: options.Value.Issuer,
+            audience: options.Value.Audience,
             signingCredentials: new SigningCredentials(
                 new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(options.Value.SecretKey)),
