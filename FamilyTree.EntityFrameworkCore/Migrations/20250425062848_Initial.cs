@@ -3,14 +3,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace FamilyTree.Services.Migrations
+namespace FamilyTree.EntityFrameworkCore.Migrations
 {
     /// <inheritdoc />
-    public partial class Added_Person : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Account",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Login = table.Column<string>(type: "character varying(16)", maxLength: 16, nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Account", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Person",
                 columns: table => new
@@ -33,6 +47,12 @@ namespace FamilyTree.Services.Migrations
                 {
                     table.PrimaryKey("PK_Person", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Person_Account_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Account",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
                         name: "FK_Person_Person_FatherId",
                         column: x => x.FatherId,
                         principalTable: "Person",
@@ -45,6 +65,11 @@ namespace FamilyTree.Services.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Person_AccountId",
+                table: "Person",
+                column: "AccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Person_FatherId",
@@ -67,6 +92,9 @@ namespace FamilyTree.Services.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Person");
+
+            migrationBuilder.DropTable(
+                name: "Account");
         }
     }
 }

@@ -19,6 +19,11 @@ public class PersonConst
     /// Максимальная длина отчества.
     /// </summary>
     public const byte MaxPatronymicLength = 60;
+
+    /// <summary>
+    /// Верификация написания ФИО.
+    /// </summary>
+    public const string FullNameVerificationPattern = @"^[\p{L}\s'-]+$";
     
     /// <summary>
     /// Максимальная длинна адреса.

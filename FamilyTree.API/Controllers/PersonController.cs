@@ -1,24 +1,24 @@
 using FamilyTree.API.DTO.Persons;
-using FamilyTree.API.Services;
+using FamilyTree.BusinessLogic.Services;
 using FamilyTree.Domain.Persons;
-using Grpc.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FamilyTree.API.Controllers;
 
+
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
-public class PersonController(PersonAppService personAppService) : ControllerBase
+public class PersonController(PersonAppService service) : ControllerBase
 {
-    private readonly PersonAppService _personAppService = personAppService;
-    
     [HttpGet("{id:guid:required}")]
     public async Task<ActionResult<Person>> GetPerson(
         Guid id)
     {
         try
         {
-            return Ok(await _personAppService.GetPersonAsync(
+            return Ok(await service.GetPersonAsync(
                 id));
         }
         catch (Exception e)
@@ -38,7 +38,7 @@ public class PersonController(PersonAppService personAppService) : ControllerBas
         int page = 1,
         int pageSize = int.MaxValue)
     {
-            var persons = await _personAppService.GetPersonsAsync(
+            var persons = await service.GetPersonsAsync(
                 gender,
                 firstName,
                 lastName,
@@ -58,7 +58,7 @@ public class PersonController(PersonAppService personAppService) : ControllerBas
     {
         try
         {
-            return Ok(await _personAppService.CreatePersonAsync(
+            return Ok(await service.CreatePersonAsync(
                 firstName: input.FirstName,
                 lastName: input.LastName,
                 gender: input.Gender,
@@ -80,7 +80,7 @@ public class PersonController(PersonAppService personAppService) : ControllerBas
     {
         try
         {
-            return Ok(await _personAppService.UpdatePersonAsync(
+            return Ok(await service.UpdatePersonAsync(
                 id: id,
                 firstName: input.FirstName,
                 lastName: input.LastName,
@@ -110,7 +110,7 @@ public class PersonController(PersonAppService personAppService) : ControllerBas
     {
         try
         {
-            await _personAppService.DeletePersonAsync(
+            await service.DeletePersonAsync(
                 id);
             return NoContent();
         }

@@ -1,7 +1,8 @@
-﻿using FamilyTree.Domain.Persons;
+﻿using FamilyTree.Domain.Accounts;
+using FamilyTree.Domain.Persons;
 using Microsoft.EntityFrameworkCore;
 
-namespace FamilyTree.Services;
+namespace FamilyTree.EntityFrameworkCore;
 
 /// <summary>
 /// Контекст проекта FamilyTree
@@ -13,6 +14,7 @@ public class FamilyTreeDbContext :
     /// Сущность людей.
     /// </summary>
     public DbSet<Person> Persons { get; set; }
+    public DbSet<Account> Accounts { get; set; }
 
     public FamilyTreeDbContext(DbContextOptions<FamilyTreeDbContext> options) 
         : base(options)
@@ -21,12 +23,11 @@ public class FamilyTreeDbContext :
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
         modelBuilder.Entity<Person>(person =>
         {
             person.ToTable("Person");
             person.HasKey(p => p.Id);
-
+    
             person.HasIndex(i => new { i.FirstName, i.LastName });
             
             person.Property(p => p.FirstName).IsRequired().HasMaxLength(PersonConst.MaxFirstNameLength);
@@ -35,9 +36,19 @@ public class FamilyTreeDbContext :
             person.Property(p => p.Birthplace).HasMaxLength(PersonConst.MaxAddressLength);
             person.Property(p => p.DeathPlace).HasMaxLength(PersonConst.MaxAddressLength);
             person.Property(p => p.Biography).HasMaxLength(PersonConst.MaxBiographyLength);
-
+    
             person.HasOne<Person>().WithMany().HasForeignKey(k => k.FatherId).OnDelete(DeleteBehavior.SetNull);
             person.HasOne<Person>().WithMany().HasForeignKey(k => k.MotherId).OnDelete(DeleteBehavior.SetNull);
+            person.HasOne<Account>().WithMany().HasForeignKey(k => k.AccountId).OnDelete(DeleteBehavior.SetNull);
+        });
+    
+        modelBuilder.Entity<Account>(account =>
+        {
+            account.ToTable("Account");
+            account.HasKey(a => a.Id);
+            
+            account.Property(p => p.Login).IsRequired().HasMaxLength(AccountConst.MaxLoginLength);
+            account.Property(p => p.PasswordHash).IsRequired();
         });
     }
 }
