@@ -1,7 +1,7 @@
 using FamilyTree.Domain.Persons;
 using Microsoft.EntityFrameworkCore;
 
-namespace FamilyTree.Services.Persons;
+namespace FamilyTree.EntityFrameworkCore.Persons;
 
 /// <inheritdoc cref="IPersonRepository"/>
 public class PersonRepository(FamilyTreeDbContext context) :
