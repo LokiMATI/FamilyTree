@@ -27,6 +27,21 @@ public class PersonController(PersonAppService service) : ControllerBase
         }
     }
 
+    [HttpGet("accountId")]
+    public async Task<ActionResult<Person>> GetPersonByAccountId(
+        Guid id)
+    {
+        try
+        {
+            return Ok(await service.GetPersonByAccountIdAsync(
+                id));
+        }
+        catch (Exception e)
+        {
+            return NotFound(e.Message);
+        }
+    }
+
     [HttpGet]
     public async Task<ActionResult<List<Person>>> GetListOfPeople(
         Gender? gender,

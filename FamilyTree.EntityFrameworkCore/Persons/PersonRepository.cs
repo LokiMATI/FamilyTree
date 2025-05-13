@@ -20,6 +20,18 @@ public class PersonRepository(FamilyTreeDbContext context) :
     }
 
     /// <inheritdoc/>
+    public async Task<Person> GetByAccountIdAsync(
+        Guid id)
+    {
+        var person = await context.Persons.AsNoTracking().FirstOrDefaultAsync(p => p.AccountId == id);
+        
+        if (person is null)
+            throw new KeyNotFoundException("Person not found");
+        
+        return person;
+    }
+
+    /// <inheritdoc/>
     public async Task<List<Person>> GetListAsync(
         Gender? gender = null,
         string? firstName = null,
@@ -140,7 +152,7 @@ public class PersonRepository(FamilyTreeDbContext context) :
         if (biography is not null)
             person.Biography = biography;
         
-        await Task.Run(() => context.Persons.Update(person));
+        context.Persons.Update(person);
         await context.SaveChangesAsync();
         
         return person;

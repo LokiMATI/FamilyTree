@@ -14,6 +14,14 @@ public interface IPersonRepository
         Guid id);
 
     /// <summary>
+    /// Получить человека по идентификатору аккаунта. 
+    /// </summary>
+    /// <param name="id">Идентификатор аккаунта.</param>
+    /// <returns>Человек.</returns>
+    Task<Person> GetByAccountIdAsync(
+        Guid id);
+
+    /// <summary>
     /// Получить список людей.
     /// </summary>
     /// <param name="gender">Гендер.</param>

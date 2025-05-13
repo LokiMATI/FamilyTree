@@ -33,9 +33,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddCors();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddMemoryCache();
 
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
@@ -47,6 +49,12 @@ builder.Services.Configure<JwtSettings>(
 
 var app = builder.Build();
 
+app.UseCors(policyBuilder =>
+{
+    policyBuilder.AllowAnyOrigin();
+    policyBuilder.AllowAnyHeader();
+    policyBuilder.AllowAnyMethod();
+});
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

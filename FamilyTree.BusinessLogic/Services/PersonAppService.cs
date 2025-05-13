@@ -1,13 +1,30 @@
 using FamilyTree.Domain.Persons;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace FamilyTree.BusinessLogic.Services;
 
-public class PersonAppService(IPersonRepository personRepository)
+public class PersonAppService(IPersonRepository personRepository, IMemoryCache memoryCache)
 {
     public async Task<Person> GetPersonAsync(
         Guid id)
     {
-        return await personRepository.GetAsync(
+        memoryCache.TryGetValue(id, out Person? person);
+        
+        if (person is not null)
+            return person;
+        
+        person = await personRepository.GetAsync(
+            id);
+        
+        memoryCache.Set(id, person, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)));
+        
+        return person;
+    }
+
+    public async Task<Person> GetPersonByAccountIdAsync(
+        Guid id)
+    {
+        return await personRepository.GetByAccountIdAsync(
             id);
     }
 
@@ -41,7 +58,7 @@ public class PersonAppService(IPersonRepository personRepository)
         Guid? motherId = null,
         Guid? accountId = null)
     {
-        return await personRepository.CreateAsync(
+        var person = await personRepository.CreateAsync(
             firstName,
             lastName,
             gender,
@@ -49,6 +66,10 @@ public class PersonAppService(IPersonRepository personRepository)
             fatherId,
             motherId,
             accountId);
+        
+        memoryCache.Set(person.Id, person, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)));
+        
+        return person;
     }
 
     public async Task<Person> UpdatePersonAsync(
@@ -65,7 +86,7 @@ public class PersonAppService(IPersonRepository personRepository)
         Guid? accountId = null,
         string? biography = null)
     {
-        return await personRepository.UpdateAsync(
+        var person = await personRepository.UpdateAsync(
             id,
             firstName,
             lastName,
@@ -78,11 +99,17 @@ public class PersonAppService(IPersonRepository personRepository)
             motherId,
             accountId,
             biography);
+        
+        memoryCache.Set(person.Id, person, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)));
+        
+        return person;
     }
 
     public async Task DeletePersonAsync(
         Guid id)
     {
+        memoryCache.Remove(id);
+        
         await personRepository.DeleteAsync(id);
     }
     
